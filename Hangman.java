@@ -1,3 +1,6 @@
+package com.company;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -45,6 +48,7 @@ public class Hangman implements HangmanInterface {
         return wordToFind.contentEquals(new String(wordFound));
     }
 
+
     @Override
     public String wordFoundContent() {
         StringBuilder builder = new StringBuilder();
@@ -61,18 +65,20 @@ public class Hangman implements HangmanInterface {
 
     @Override
     public void play() {
+
         try (Scanner input = new Scanner(System.in)) {
             while (errorNr < MAX_ERRORS) {
                 System.out.println("\nEnter a letter : ");
                 String str = input.next();
+
 
                 // we keep just first letter
                 if (str.length() > 1) {
                     str = str.substring(0, 1);
                 }
 
-                // update word found
-                enter(str);
+                // update word found, added so .toUpperCase so user can enter via lowercase as well
+                enter(str.toUpperCase());
 
                 // display current state
                 System.out.println("\n" + wordFoundContent());
@@ -88,7 +94,7 @@ public class Hangman implements HangmanInterface {
             }
 
             if (errorNr == MAX_ERRORS) {
-                // user losed
+                // user lost
                 System.out.println("\nYou lose!");
                 System.out.println("The word was : " + wordToFind);
             }
@@ -106,6 +112,7 @@ public class Hangman implements HangmanInterface {
                     wordFound[index] = c.charAt(0);
                     index = wordToFind.indexOf(c, index + 1);
                 }
+
             } else {
                 // c not in the word => error
                 errorNr++;
@@ -113,6 +120,7 @@ public class Hangman implements HangmanInterface {
 
             // c is now a letter entered
             letters.add(c);
+
         }
 
     }
